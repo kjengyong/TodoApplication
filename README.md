@@ -7,7 +7,7 @@
 
 # Improvement
 
-##The list of things can implement but dut to time constraint does not included on this solution but should be consider when doing real-life application
+## The list of things can implement but dut to time constraint does not included on this solution but should be consider when doing real-life application
 
 1. Should use DB to store data, because of want to make it easy to setup the api, it's using json file to store info.
 2. In real-life application, should use either third-party authentication or in-house identify server with in-house authentification to generate token and use redis to share the token to multiple instance of identity server. (JWT/oauth2)
