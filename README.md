@@ -9,7 +9,7 @@
 1. It's using Bearer token, after call POST /Auth/LoginAsync get the token and put inside the swagger AS Bearer xxxx
 2. you may create you own account using POST /Auth/Register
 
-# Improvement
+# Future Improvement
 
 ## The list of things can implement but dut to time constraint does not included on this solution but should be consider when doing real-life application
 
