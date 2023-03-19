@@ -24,19 +24,19 @@ public class TodoItemService : ITodoItemService
         return SortTodo(sortType, data);
     }
 
-    public async Task<int?> CreateAsync(TodoItemDto data)
+    public async Task<int?> CreateAsync(TodoItemDto data, CancellationToken cancellationToken)
     {
-        return await _todoItemRepository.CreateAsync(_iMapper.Map<RepositoriesModels.TodoItem>(data));
+        return await _todoItemRepository.CreateAsync(_iMapper.Map<RepositoriesModels.TodoItem>(data), cancellationToken);
     }
 
-    public async Task<bool> UpdateAsync(TodoItemDto data)
+    public async Task<bool> UpdateAsync(TodoItemDto data, CancellationToken cancellationToken)
     {
-        return await _todoItemRepository.UpdateAsync(_iMapper.Map<RepositoriesModels.TodoItem>(data));
+        return await _todoItemRepository.UpdateAsync(_iMapper.Map<RepositoriesModels.TodoItem>(data), cancellationToken);
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        return await _todoItemRepository.DeleteAsync(id);
+        return await _todoItemRepository.DeleteAsync(id, cancellationToken);
     }
 
     #region Private method

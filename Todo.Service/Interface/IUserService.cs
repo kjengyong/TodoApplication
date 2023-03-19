@@ -4,6 +4,6 @@ namespace Todo.Service.Interface;
 
 public interface IUserService
 {
-    Task<bool> Create(UserDto data);
-    Task<string?> Login(UserDto data);
+    Task<bool> Create(UserDto data, CancellationToken cancellationToken);
+    Task<string?> Login(UserDto data, CancellationToken cancellationToken);
 }

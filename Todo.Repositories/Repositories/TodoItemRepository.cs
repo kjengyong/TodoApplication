@@ -11,18 +11,19 @@ namespace Todo.Infrastructure.Repositories;
 public class TodoItemRepository : ITodoItemRepository
 {
     private readonly ILogger<TodoItemRepository> _logger;
+    private readonly IFileRepository _fileRepository;
     private readonly string _filePath = @"TodoData.json";
-    public TodoItemRepository(ILogger<TodoItemRepository> logger)
+    public TodoItemRepository(ILogger<TodoItemRepository> logger, IFileRepository fileRepository)
     {
         _logger = logger;
+        _fileRepository = fileRepository;
     }
 
     public async Task<IEnumerable<TodoItem>> GetAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            string json = await File.ReadAllTextAsync(_filePath, cancellationToken);
-            IEnumerable<TodoItem>? data = JsonSerializer.Deserialize<IEnumerable<TodoItem>>(json);
+            IEnumerable<TodoItem>? data = await _fileRepository.Get<IEnumerable<TodoItem>>(_filePath, cancellationToken);
             return data ?? new List<TodoItem>();
         }
         catch (Exception ex)
@@ -32,7 +33,7 @@ public class TodoItemRepository : ITodoItemRepository
         }
     }
 
-    public virtual async Task<int?> CreateAsync(TodoItem data)
+    public virtual async Task<int?> CreateAsync(TodoItem data, CancellationToken cancellationToken)
     {
         IEnumerable<TodoItem> todoEnumerable = await GetAsync();
         List<TodoItem> todoItems = todoEnumerable.ToList();
@@ -42,9 +43,7 @@ public class TodoItemRepository : ITodoItemRepository
         {
             data.Id = nextId;
             todoItems.Add(data);
-
-            await using FileStream createStream = File.Create(_filePath);
-            await JsonSerializer.SerializeAsync(createStream, todoItems);
+            await _fileRepository.CreateOrUpdateFileAsync(_filePath, todoItems, cancellationToken);
             return nextId;
         }
         catch (Exception ex)
@@ -55,7 +54,7 @@ public class TodoItemRepository : ITodoItemRepository
     }
 
 
-    public async Task<bool> UpdateAsync(TodoItem updatedData)
+    public async Task<bool> UpdateAsync(TodoItem updatedData, CancellationToken cancellationToken)
     {
         IEnumerable<TodoItem> todoEnumerable = await GetAsync();
         List<TodoItem> todoItems = todoEnumerable.ToList();
@@ -68,7 +67,7 @@ public class TodoItemRepository : ITodoItemRepository
 
         try
         {
-            await File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(todoItems.ToList()));
+            await _fileRepository.CreateOrUpdateFileAsync(_filePath, todoItems, cancellationToken);
             return true;
         }
         catch (Exception ex)
@@ -77,7 +76,7 @@ public class TodoItemRepository : ITodoItemRepository
             return false;
         }
     }
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
     {
         IEnumerable<TodoItem> todoEnumerable = await GetAsync();
 
@@ -87,7 +86,7 @@ public class TodoItemRepository : ITodoItemRepository
         todoItems = todoItems.Where(data => data.Id != id).ToList();
         try
         {
-            await File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(todoItems));
+            await _fileRepository.CreateOrUpdateFileAsync(_filePath, todoItems, cancellationToken);
             return true;
         }
         catch (Exception ex)
@@ -96,5 +95,4 @@ public class TodoItemRepository : ITodoItemRepository
             return false;
         }
     }
-
 }

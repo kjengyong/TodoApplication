@@ -86,7 +86,7 @@ namespace Todo.API.Controllers
         {
             try
             {
-                int? id = await _todoItemService.CreateAsync(request);
+                int? id = await _todoItemService.CreateAsync(request, cancellationToken);
                 if (id != null)
                     return Ok(new BaseResponse<int?>(id));
                 return BadRequest(new BaseResponse());
@@ -128,7 +128,7 @@ namespace Todo.API.Controllers
         {
             try
             {
-                bool isSuccess = await _todoItemService.UpdateAsync(request);
+                bool isSuccess = await _todoItemService.UpdateAsync(request, cancellationToken);
                 return isSuccess ? Ok(new BaseResponse(true)) : BadRequest(new BaseResponse());
             }
             catch (Exception ex)
@@ -151,7 +151,7 @@ namespace Todo.API.Controllers
         {
             try
             {
-                bool isSuccess = await _todoItemService.DeleteAsync(id);
+                bool isSuccess = await _todoItemService.DeleteAsync(id, cancellationToken);
                 return isSuccess ? Ok(new BaseResponse(true)) : BadRequest(new BaseResponse());
             }
             catch (Exception ex)

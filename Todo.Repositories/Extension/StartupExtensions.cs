@@ -8,6 +8,7 @@ public static class StartupExtensions
 {
     public static IServiceCollection AddTodoRepositoriesConfiguration(this IServiceCollection services)
     {
+        services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<ITodoItemRepository, TodoItemRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         return services;

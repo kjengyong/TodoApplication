@@ -15,15 +15,17 @@ namespace Todo.Infrastructure.Repositories;
 public class UserRepository : IUserRepository
 {
     private readonly ILogger<UserRepository> _logger;
+    private readonly IFileRepository _fileRepository;
     private readonly string _filePath = @"UserData.json";
-    public UserRepository(ILogger<UserRepository> logger)
+    public UserRepository(ILogger<UserRepository> logger, IFileRepository fileRepository)
     {
         _logger = logger;
+        _fileRepository = fileRepository;
     }
 
-    public async Task<bool> Create(User data)
+    public async Task<bool> Create(User data, CancellationToken cancellationToken)
     {
-        IEnumerable<User> users = await Get();
+        IEnumerable<User> users = await Get(cancellationToken);
         List<User> usersList = users.ToList();
         IsUserExist(data, usersList);
 
@@ -31,8 +33,7 @@ public class UserRepository : IUserRepository
         {
             data.Id = Guid.NewGuid().ToString();
             usersList.Add(data);
-            await using FileStream createStream = File.Create(_filePath);
-            await JsonSerializer.SerializeAsync(createStream, usersList);
+            await _fileRepository.CreateOrUpdateFileAsync(_filePath, usersList, cancellationToken);
             return true;
         }
         catch (Exception ex)
@@ -46,11 +47,11 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<bool> Login(User data)
+    public async Task<bool> Login(User data, CancellationToken cancellationToken)
     {
         try
         {
-            IEnumerable<User> users = await Get();
+            IEnumerable<User> users = await Get(cancellationToken);
             return users.Any(x => (x.UserName?.Equals(data.UserName, StringComparison.OrdinalIgnoreCase)).GetValueOrDefault()
                              && x.Password!.Equals(data.Password));
         }
@@ -61,12 +62,11 @@ public class UserRepository : IUserRepository
         }
     }
 
-    private async Task<IEnumerable<User>> Get()
+    private async Task<IEnumerable<User>> Get(CancellationToken cancellationToken)
     {
         try
         {
-            string json = await File.ReadAllTextAsync(_filePath);
-            IEnumerable<User>? data = JsonSerializer.Deserialize<IEnumerable<User>>(json);
+            IEnumerable<User>? data = await _fileRepository.Get<IEnumerable<User>>(_filePath, cancellationToken);
             return data ?? new List<User>();
         }
         catch (Exception ex)

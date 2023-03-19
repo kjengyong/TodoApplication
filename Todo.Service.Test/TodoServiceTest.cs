@@ -14,9 +14,9 @@ namespace Todo.Service.Test
     public class TodoServiceTest
     {
         #region Property  
-        private Mock<ITodoItemRepository> _mockTodoRepository;
-        private ITodoItemService _todoItemService;
-        private IMapper _iMapper;
+        private Mock<ITodoItemRepository>? _mockTodoRepository;
+        private ITodoItemService? _todoItemService;
+        private IMapper? _iMapper;
 
         #endregion
         [SetUp]
@@ -49,9 +49,9 @@ namespace Todo.Service.Test
         [TestCaseSource(nameof(GetTodoList))]
         public async Task GetTodo_ReturnCountMatch(IEnumerable<TodoItemDto> data)
         {
-            var testData = _iMapper.Map<List<TodoItem>>(data);
-            _mockTodoRepository.Setup(p => p.GetAsync(default)).ReturnsAsync(testData);
-            IEnumerable<TodoItemDto> result = await _todoItemService.GetAsync(null, null);
+            var testData = _iMapper!.Map<List<TodoItem>>(data);
+            _mockTodoRepository!.Setup(p => p.GetAsync(default)).ReturnsAsync(testData);
+            IEnumerable<TodoItemDto> result = await _todoItemService!.GetAsync(null, null);
             Assert.AreEqual(data.Count(), result.Count());
         }
         private static IEnumerable<List<TodoItemDto>> GetTodoList()

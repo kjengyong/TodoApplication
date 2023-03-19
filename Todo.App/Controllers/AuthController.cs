@@ -43,16 +43,17 @@ namespace Todo.API.Controllers
         ///
         /// </remarks>
         /// <param name="user"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("LoginAsync")]
         [ProducesResponseType(typeof(BaseResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> LoginAsync(UserDto user)
+        public async Task<IActionResult> LoginAsync(UserDto user, CancellationToken cancellationToken)
         {
             try
             {
-                string? token = await _userService.Login(user);
+                string? token = await _userService.Login(user, cancellationToken);
                 if (!string.IsNullOrWhiteSpace(token))
                     return Ok(new BaseResponse<string>(token));
                 return Unauthorized();
@@ -70,16 +71,17 @@ namespace Todo.API.Controllers
         /// AddAsync member
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("Register")]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddAsync(UserDto user)
+        public async Task<IActionResult> AddAsync(UserDto user, CancellationToken cancellationToken)
         {
             try
             {
-                if (await _userService.Create(user))
+                if (await _userService.Create(user, cancellationToken))
                     return Ok(new BaseResponse() { IsSuccess = true });
                 return BadRequest(new BaseResponse() { Message = "Register Failed" });
             }

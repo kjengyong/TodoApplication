@@ -24,16 +24,16 @@ public class UserService : IUserService
         _iMapper = iMapper;
     }
 
-    public async Task<bool> Create(UserDto data)
+    public async Task<bool> Create(UserDto data, CancellationToken cancellationToken)
     {
         data.Password = GenerateSaltedHash(data.Password!);
-        return await _userRepository.Create(_iMapper.Map<RepositoriesModels.User>(data));
+        return await _userRepository.Create(_iMapper.Map<RepositoriesModels.User>(data), cancellationToken);
     }
 
-    public async Task<string?> Login(UserDto user)
+    public async Task<string?> Login(UserDto user, CancellationToken cancellationToken)
     {
         user.Password = GenerateSaltedHash(user.Password);
-        if (await _userRepository.Login(_iMapper.Map<RepositoriesModels.User>(user)))
+        if (await _userRepository.Login(_iMapper.Map<RepositoriesModels.User>(user), cancellationToken))
             return GenerateToken(user);
         return null;
     }
@@ -115,6 +115,6 @@ public class UserService : IUserService
         }
 
         return true;
-    } 
+    }
     #endregion
 }
