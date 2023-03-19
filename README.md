@@ -5,6 +5,10 @@
 2. Due to reduce the complexity of setup it, didn't use any db for it.
 3. This solution is run on dotnet 6, pleaes ensure installed required sdk from https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
+# Instruction
+1. It's using Bearer token, after call POST /Auth/LoginAsync get the token and put inside the swagger at Bearer xxxx, you may create you own account using POST
+/Auth/Register
+
 # Improvement
 
 ## The list of things can implement but dut to time constraint does not included on this solution but should be consider when doing real-life application
