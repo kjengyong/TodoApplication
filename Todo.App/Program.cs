@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -53,13 +53,13 @@ var securityReq = new OpenApiSecurityRequirement()
 var contact = new OpenApiContact()
 {
     Name = "Tester",
-    Url = new Uri("http://www.tester.com")
+    Url = new Uri("https://github.com/kjengyong")
 };
 
 var license = new OpenApiLicense()
 {
     Name = "Free License",
-    Url = new Uri("http://www.tester.com")
+    Url = new Uri("https://github.com/kjengyong")
 };
 
 var info = new OpenApiInfo()
@@ -67,7 +67,7 @@ var info = new OpenApiInfo()
     Version = "v1",
     Title = "Todo List",
     Description = "Todo List",
-    TermsOfService = new Uri("http://www.example.com"),
+    TermsOfService = new Uri("https://github.com/kjengyong"),
     Contact = contact,
     License = license
 };
