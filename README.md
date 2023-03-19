@@ -6,7 +6,7 @@
 3. This solution is run on dotnet 6, pleaes ensure installed required sdk from https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
 # Instruction
-1. It's using Bearer token, after call POST /Auth/LoginAsync get the token and put inside the swagger AS Bearer xxxx
+1. It's using Bearer token, after call POST /Auth/LoginAsync get the token and put inside the swagger as Bearer xxxx
 2. you may create you own account using POST /Auth/Register
 
 # Future Improvement
