@@ -15,6 +15,7 @@ public class FileRepository : IFileRepository
     {
         _logger = logger;
     }
+
     public async Task<T?> Get<T>(string filePath, CancellationToken cancellationToken)
     {
         try
@@ -27,6 +28,7 @@ public class FileRepository : IFileRepository
             throw;
         }
     }
+
     public async Task CreateOrUpdateFileAsync<T>(string filePath, T data, CancellationToken cancellationToken)
     {
         try

@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Service", "..\Todo.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Core", "..\Todo.Core\Todo.Core.csproj", "{B79AFB56-0FA1-4872-A1E8-612308670EFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Service.Test", "..\Todo.Service.Test\Todo.Service.Test.csproj", "{B0882739-C968-4A8E-B979-BAA58CD32B12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Service.Test", "..\Todo.Service.Test\Todo.Service.Test.csproj", "{B0882739-C968-4A8E-B979-BAA58CD32B12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4C7B9D5C-D19B-43FC-BD42-4C41450ED44F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

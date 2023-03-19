@@ -35,7 +35,7 @@ public class TodoItemRepository : ITodoItemRepository
 
     public virtual async Task<int?> CreateAsync(TodoItem data, CancellationToken cancellationToken)
     {
-        IEnumerable<TodoItem> todoEnumerable = await GetAsync();
+        IEnumerable<TodoItem> todoEnumerable = await GetAsync(cancellationToken);
         List<TodoItem> todoItems = todoEnumerable.ToList();
         int maxId = todoItems.Max(x => x.Id) ?? 0;
         int nextId = maxId + 1;
@@ -53,10 +53,9 @@ public class TodoItemRepository : ITodoItemRepository
         }
     }
 
-
     public async Task<bool> UpdateAsync(TodoItem updatedData, CancellationToken cancellationToken)
     {
-        IEnumerable<TodoItem> todoEnumerable = await GetAsync();
+        IEnumerable<TodoItem> todoEnumerable = await GetAsync(cancellationToken);
         List<TodoItem> todoItems = todoEnumerable.ToList();
         if (!todoItems.Any())
             return false;
@@ -76,9 +75,10 @@ public class TodoItemRepository : ITodoItemRepository
             return false;
         }
     }
+
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        IEnumerable<TodoItem> todoEnumerable = await GetAsync();
+        IEnumerable<TodoItem> todoEnumerable = await GetAsync(cancellationToken);
 
         List<TodoItem> todoItems = todoEnumerable.ToList();
         if (!todoItems.Any())

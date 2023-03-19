@@ -14,7 +14,7 @@ namespace Todo.Service.Services;
 
 public class UserService : IUserService
 {
-    private JwtConfig _jwtConfig;
+    private readonly JwtConfig _jwtConfig;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _iMapper;
     public UserService(JwtConfig jwtConfig, IUserRepository userRepository, IMapper iMapper)
@@ -43,8 +43,6 @@ public class UserService : IUserService
     {
         var issuer = _jwtConfig.Issuer;
         var audience = _jwtConfig.Audience;
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key!));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var jwtTokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfig.Key);
@@ -96,25 +94,6 @@ public class UserService : IUserService
 
         byte[] passwordByte = algorithm.ComputeHash(plainTextWithSaltBytes);
         return Encoding.UTF8.GetString(passwordByte, 0, passwordByte.Length);
-    }
-    private static bool CompareByteArrays(string password1, string password2)
-    {
-        byte[] array1 = Encoding.UTF8.GetBytes(password1);
-        byte[] array2 = Encoding.UTF8.GetBytes(password2);
-        if (array1.Length != array2.Length)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < array1.Length; i++)
-        {
-            if (array1[i] != array2[i])
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
     #endregion
 }
